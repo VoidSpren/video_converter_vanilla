@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <link href="./style.css" rel="stylesheet"/>
+    
+    <title>Convertidor de video</title>
+  </head>
+
+  <body>
+    <div class="fileTargetContainer">
+      <p>Archivos Seleccionados (arrastra y sueltalos)</p>
+      <div class="fileTarget" id="fileTarget">
+      </div>
+      <div class="logger" id="logger">
+        <div class="vResizer" id="loggerResizer">=</div>
+
+        <pre id="textDisplay">
+        </pre>
+      </div>
+    </div>
+    <div class="actionContainer">
+        <label for="fileInput" class="button">Añadir Archivos</label>
+        <input id="fileInput" name="fileInput" type="file" accept="video/*" multiple style="display: none;"/>
+
+        <button id="dirInput">Escoger directorio de salida</button>
+        <label id="dirOut" style="word-break: break-all;">directorio:</label>
+        <br/>
+        <label for="bitrateInput">tasa de datos (kB)</label>
+        <input id="bitrateInput" name="bitrateInput" type="number" value="4000"/>
+
+        <label for="cbrInput">tasa de datos constante</label>
+        <div>
+          <input id="cbrInput" name="cbrInput" type="checkbox"/>
+        </div>
+
+        <label for="resolutionSelect">resolucion (lado menor)*</label>
+        <select name="resolutionSelect" id="resSelect">
+          <option value="360">360</option>
+          <option value="480">480</option>
+          <option value="720" selected>720</option>
+          <option value="1080">1080</option>
+          <option value="1440">1440</option>
+          <option value="2160">2160</option>
+        </select>
+
+        <label for="fpsSelect">frames por segundo</label>
+        <select name="fpsSelect" id="fpsSelect">
+          <option value="12">12</option>
+          <option value="15">15</option>
+          <option value="24">24</option>
+          <option value="30" selected>30</option>
+          <option value="60">60</option>
+        </select>
+
+        <br/>
+        <button id="convert">Convertir</button>
+        <button id="cancel" style="display: none;">Cancelar</button>
+
+        <p id="progress" style="margin-top: auto; word-break: break-all;"></p>
+        <button id="clear" >Limpiar salida</button>
+        <p>*si no se especifica se crearan los archivos de salida en el punto donde se abrio el programa</p>
+    </div>
+    <script>var exports = {};</script>
+    <script src="loging.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

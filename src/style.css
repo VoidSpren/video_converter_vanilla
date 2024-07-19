@@ -1,0 +1,111 @@
+*{
+  box-sizing: border-box;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+button, .button, input{
+  display: block;
+  /* width: 100%; */
+  min-width: max-content;
+
+  text-align: center;
+  font-size: 0.9rem;
+
+  margin: 8px 0;
+
+  background-color: white;
+  border: solid 2px darkgray;
+  border-radius: 4px;
+}
+button:hover, .button:hover{
+  border-color: black;
+}
+button:active, .button:active{
+  background-color: lightgray;
+}
+
+input[type=checkbox]{
+  width: auto;
+}
+
+body{
+  display: grid;
+  grid-template-columns: 5fr;
+  grid-auto-flow: column;
+
+  height: 100svh;
+  max-height: 100svh;
+
+  margin: 0;
+  padding: 8px 16px 16px;
+}
+
+.fileTargetContainer{
+  display: flex;
+  flex-direction: column;
+
+  max-height: 100%;
+  overflow: hidden;
+  align-content: baseline;
+
+  padding-right: 16px;
+}
+
+.fileTarget{
+  flex-grow: 1;
+  overflow-y: auto;
+  word-break: break-all;
+  background-color: lightgray;
+  padding: 5px;
+}
+
+.fileListElement{
+  display: flex;
+}
+.fileListElement p{
+  margin-right: 1rem; 
+}
+.fileListElement p:hover{
+  text-decoration: underline;
+}
+.fileListElement button{
+  margin-left: auto;
+}
+
+.logger{
+  max-height: 90%;
+  height: 10px;
+  background-color: black;
+  color: white;
+}
+.logger > pre{
+  display: flex;
+  flex-direction: column-reverse;
+
+  max-height: 95%;
+  padding: 1rem;
+  margin: 0;
+  overflow-y: auto;
+  text-wrap: wrap;
+}
+
+.vResizer{
+  background-color: gray;
+  border: solid 2px darkgray;
+  height: 10px;
+
+  text-align: center;
+  line-height: 5px;
+  color: black;
+
+  cursor: n-resize;
+}
+
+.actionContainer{
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  max-height: 100%;
+  max-width: 300px;
+  overflow-y: auto;
+}
