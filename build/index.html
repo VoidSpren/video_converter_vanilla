@@ -13,6 +13,7 @@
       <p>Archivos Seleccionados (arrastra y sueltalos)</p>
       <div class="fileTarget" id="fileTarget">
       </div>
+      <div class="lastLine" id="lastLine"></div>
       <div class="logger" id="logger">
         <div class="vResizer" id="loggerResizer">=</div>
 
@@ -25,10 +26,10 @@
         <input id="fileInput" name="fileInput" type="file" accept="video/*" multiple style="display: none;"/>
 
         <button id="dirInput">Escoger directorio de salida</button>
-        <label id="dirOut" style="word-break: break-all;">directorio:</label>
+        <label id="dirOut" style="text-overflow: ellipsis; overflow: hidden;">directorio:</label>
         <br/>
         <label for="bitrateInput">tasa de datos (kB)</label>
-        <input id="bitrateInput" name="bitrateInput" type="number" value="4000"/>
+        <input id="bitrateInput" name="bitrateInput" type="number" value="2000"/>
 
         <label for="cbrInput">tasa de datos constante</label>
         <div>
@@ -55,15 +56,18 @@
         </select>
 
         <br/>
-        <button id="convert">Convertir</button>
+        <label for="trailInput">texto añadido al nombre</label>
+        <input id="trailInput" name="trailInput" value="_copy"/>
+
+        <br/>
+        <button id="convert">Guardar configuración</button>
         <button id="cancel" style="display: none;">Cancelar</button>
 
-        <p id="progress" style="margin-top: auto; word-break: break-all;"></p>
-        <button id="clear" >Limpiar salida</button>
-        <p>*si no se especifica se crearan los archivos de salida en el punto donde se abrio el programa</p>
+        <button id="clear" style="margin-top: auto;">Limpiar salida</button>
+        <p>*si no se especifica se crearan los archivos de salida en la ultima configuración</p>
     </div>
     <script>var exports = {};</script>
-    <script src="loging.js"></script>
-    <script src="index.js"></script>
+    <script src="loging.js" type="module"></script>
+    <script src="index.js" type="module"></script>
   </body>
 </html>

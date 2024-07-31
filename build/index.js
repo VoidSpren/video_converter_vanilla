@@ -4,12 +4,8 @@ const fileTarget = document.getElementById("fileTarget");
 const fileInput = document.getElementById("fileInput");
 const dirInput = document.getElementById("dirInput");
 const dirOut = document.getElementById("dirOut");
+const convert = document.getElementById("convert");
 let fileStore = [];
-window.electron.app().then((app) => {
-    const { filename, dirname } = app;
-    dirOut.textContent = dirname;
-    console.log(app);
-});
 const addFileNameToTarget = (name, path) => {
     const div = document.createElement("div");
     const p = document.createElement("p");
@@ -33,6 +29,7 @@ const addFilesOnce = (file) => {
 const addFiles = (file) => {
     fileStore.push(file);
     addFileNameToTarget(file.name, file.path);
+    convert.textContent = "Convertir";
 };
 const deleteFile = (path) => {
     const index = fileStore.findIndex(file => file.path === path);
@@ -49,6 +46,10 @@ const setFiles = (files) => {
     for (let file of fileStore) {
         addFileNameToTarget(file.name, file.path);
     }
+    if (fileStore.length > 0)
+        convert.textContent = "Convertir";
+    else
+        convert.textContent = "Guardar configuración";
 };
 function prevent(ev) { ev.preventDefault(); }
 fileTarget.addEventListener("dragover", prevent);
@@ -76,41 +77,45 @@ fileInput.addEventListener("change", (ev) => {
 dirInput.addEventListener("click", async (ev) => {
     ev.preventDefault();
     const path = await window.electron.selectDir();
-    dirOut.textContent = "directorio: " + path;
+    dirOut.textContent = path;
+    dirOut.title = path;
 });
 const bitrateInput = document.getElementById("bitrateInput");
 const cbrInput = document.getElementById("cbrInput");
 const resSelect = document.getElementById("resSelect");
 const fpsSelect = document.getElementById("fpsSelect");
-const convert = document.getElementById("convert");
+const trailInput = document.getElementById("trailInput");
 const cancel = document.getElementById("cancel");
-const logger = document.getElementById("logger");
-let configuration = {
-    height: 720,
-    bitrate: 4000,
-    fps: 30,
-    cbr: false,
-    minorSideRes: true
-};
-convert.addEventListener("click", ev => {
-    ev.preventDefault();
-    let bitrate = parseInt(bitrateInput.value);
-    if (isNaN(bitrate)) {
-        bitrate = 4000;
-        bitrateInput.value = "4000";
-    }
-    configuration = {
-        height: parseInt(resSelect.options.item(resSelect.selectedIndex)?.value),
-        bitrate: bitrate,
-        fps: parseInt(fpsSelect.options.item(fpsSelect.selectedIndex)?.value),
-        cbr: Boolean(cbrInput.value),
-        minorSideRes: true
-    };
-    window.electron.processVideos({ paths: fileStore.map(file => file.path), config: configuration });
-    let actualHeight = parseInt(window.getComputedStyle(logger).height);
-    if (actualHeight < 70)
-        logger.style.height = "70px";
-    cancel.style.display = "block";
+//TODO: setup configuration through config file in html
+window.electron.app().then(appConfig => {
+    const { filename, dirname } = appConfig;
+    dirOut.textContent = dirname;
+    dirOut.title = dirname;
+    let configuration = appConfig.configInfo;
+    console.log(configuration);
+    if (configuration.height)
+        resSelect.value = configuration.height.toString();
+    if (configuration.fps)
+        fpsSelect.value = configuration.fps.toString();
+    if (configuration.bitrate)
+        bitrateInput.valueAsNumber = configuration.bitrate;
+    if (configuration.cbr)
+        cbrInput.checked = configuration.cbr;
+    trailInput.value = configuration.trail ?? trailInput.value;
+    convert.addEventListener("click", ev => {
+        ev.preventDefault();
+        configuration = {
+            height: parseInt(resSelect.options.item(resSelect.selectedIndex)?.value),
+            bitrate: bitrateInput.valueAsNumber,
+            fps: parseInt(fpsSelect.options.item(fpsSelect.selectedIndex)?.value),
+            cbr: Boolean(cbrInput.value),
+            minorSideRes: true,
+            trail: trailInput.value
+        };
+        const arr = (fileStore.length > 0) ? Array(fileStore.length).fill(configuration) : [configuration];
+        window.electron.processVideos({ paths: fileStore.map(file => file.path), config: arr });
+        cancel.style.display = "block";
+    });
 });
 cancel.addEventListener("click", ev => {
     ev.preventDefault();

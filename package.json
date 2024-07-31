@@ -1,10 +1,11 @@
 {
   "name": "video_converter_vanilla",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "convertidor de formatos de video en vanilla js",
   "main": "build/main.js",
   "scripts": {
     "start": "electron-forge start",
+    "dev": "npm run compile & npm run electron",
     "electron": "electron .",
     "compile": "tsc && copyfiles -f src/index.html build&& copyfiles -f src/style.css build",
     "package": "electron-forge package",

@@ -1,14 +1,15 @@
 const loggerResizer = document.getElementById("loggerResizer") as HTMLDivElement;
-const logUnit = document.getElementById("logger") as HTMLDivElement;
+const logger = document.getElementById("logger") as HTMLDivElement;
+const lastLine = document.getElementById("lastLine") as HTMLDivElement;
 const textDisplay = document.getElementById("textDisplay") as HTMLPreElement;
 const clear = document.getElementById("clear") as HTMLButtonElement;
 
-let initialHeight = parseInt(window.getComputedStyle(logUnit).height);
+let initialHeight = parseInt(window.getComputedStyle(logger).height);
 let startMouseHeight = 0;
 
 const doResize = (ev: MouseEvent) => {
   const newHeight = (initialHeight - (ev.clientY - startMouseHeight));
-  logUnit.style.height = newHeight > 10? (newHeight.toString() + "px"): "10px"
+  logger.style.height = newHeight > 10? (newHeight.toString() + "px"): "10px"
 }
 const stopResize = (ev: MouseEvent) => {
   document.body.style.userSelect = "";
@@ -17,7 +18,7 @@ const stopResize = (ev: MouseEvent) => {
 }
 
 loggerResizer.addEventListener("mousedown", (ev) => {
-  initialHeight = parseInt(window.getComputedStyle(logUnit).height);
+  initialHeight = parseInt(window.getComputedStyle(logger).height);
   startMouseHeight = ev.clientY;
 
   document.body.style.userSelect = "none";
@@ -46,4 +47,5 @@ window.electron.onProcessInfo(info => {
   // }
 
   textDisplay.textContent += info;
+  lastLine.textContent = info;
 })
