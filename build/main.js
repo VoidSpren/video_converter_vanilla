@@ -132,9 +132,9 @@ const proccessVideos = async ({ paths, config }, sendInfo, ended) => {
             // bugfix ?? 30 so typexript doesn't complain (should never default to 30, as it's never undefined in this section)
             command.fps(config[i].fps ?? 30);
         }
-        command.on("start", () => sendInfo("start"));
+        command.on("start", () => sendInfo(`start: ${i + 1}/${paths.length} ${path} %0`));
         command.on("end", () => {
-            sendInfo("ended");
+            sendInfo(`ended: ${i + 1}/${paths.length} ${path} %100`);
             resolver(Promise.resolve(true));
         });
         command.on("error", () => {

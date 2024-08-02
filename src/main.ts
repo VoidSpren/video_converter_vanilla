@@ -148,13 +148,13 @@ const proccessVideos = async ({paths, config}: {paths: string[], config: Convert
 
 
 
-    command.on("start", () => sendInfo("start"));
+    command.on("start", () => sendInfo(`start: ${i+1}/${paths.length} ${path} %0`));
     command.on("end", () => {
-      sendInfo("ended");
+      sendInfo(`ended: ${i+1}/${paths.length} ${path} %100`);
       resolver(Promise.resolve(true));
     });
     command.on("error", () => {
-      sendInfo("error or canceled");
+      sendInfo(`error/canceled:  ${i+1}/${paths.length} ${path} %?`);
       resolver(Promise.resolve(false));
     });
     command.on("progress", (progress) => {
@@ -166,12 +166,12 @@ const proccessVideos = async ({paths, config}: {paths: string[], config: Convert
     const result = await promise;
 
     savePaths.push(savePath);
-    sendInfo(`${result?"guardado":"archivo fallido"} en: ${savePath}`);
+    sendInfo(`${result?"guardado":"archivo fallido"} en: ${i+1}/${paths.length} ${savePath}`);
   }
 
   if(savePaths.length > 0) sendInfo("archivos creados en:");
   for(let path of savePaths){
-    sendInfo(`  ${path}`);
+    sendInfo(`    ${path}`);
   }
   ended();
   processCancelled = false;
